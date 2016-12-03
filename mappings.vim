@@ -10,6 +10,9 @@ nnoremap <Space>% :%s/\<<C-r>=expand("<cword>")<CR>\>/
 nnoremap <C-l> :nohl<CR>
 inoremap jj <ESC>
 
+imap <C-j> <Plug>snipMateNextOrTrigger
+imap <S-j> <Plug>snipMateBack
+
 "{{{ Window/buffer Management
 nnoremap <SPACE>v <C-w>v
 nnoremap <SPACE>s <C-w>s

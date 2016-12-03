@@ -8,16 +8,73 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/snipmate
+~MSle0~/vim-dirvish
 
 # Last Substitute Search Pattern:
-~MSle0&.
+~MSle0&.vim$
 
 # Last Substitute String:
 $
 
 # Command Line History (newest to oldest):
+:e new
+:w
 :PlugClean
+:help Shdo
+:Shdo ls
+:Dirvish
+:shdo ls
+:bdelete session.vim
+:v/.vim$/d
+:g/.vim$/#
+:g/.vim/#
+:g/vim
+:v/vim/d
+:'<,'>v/vim/d
+:'<
+:'<,'>!sort
+:'<,'>
+:help dirvish
+:Dirvish .
+:help vim-vinegar
+:help vinegar
+:e .
+:help sneak
+:help vim-sneak
+:e ~
+:call sneak#wrap(v:operator, 2, 0, 2, 1)
+:help sneak#label
+:nmap s
+:help s
+:let g:sneak#label
+:let g:sneak#label = 0
+:let g:sneak#label = 1
+:let g:sneak
+:g:sneak#label = 1
+:Let g:sneak#label = 1
+:help text-object z
+:help z
+:set modifiable
+:help snipmate
+:help supertab
+:ehlp supe
+:imap
+:wqa
+:%s/\<imap\>/
+:r
+:e vim-snipmate/after
+:q!
+:e vim-snipmate/after/
+:find vim-snipmate/after/
+:e ./autocmd.vim
+:tn
+:PlugInstall
+:Ag completefnc
+:Ag completeSnipmate
+:Ag GetSnip
+:Pl
+:Ag snipmate
+:Ag feedPop
 :imap <SHIFT>
 :imap <S->
 :imap SHIFT
@@ -37,9 +94,7 @@ $
 :call targets#o('''ci', v:count1)
 :imap <c-space>
 :imap <C-space>
-:help supertab
 :Help super
-:w
 :plug
 :imap <S-j>
 :e mappings.vim
@@ -52,7 +107,6 @@ $
 :e test.js
 :e plugs.vim
 :e `/plugs.vim
-:help snipmate
 :echo has('clipboard')
 :p
 :echo undotree()
@@ -63,13 +117,10 @@ $
 :quit
 :echo has('lua')
 :echo has('lua'
-:wqa
-:'<,'>!sort
 :'<,'>!ls
 :'<,'>!! sort
 :'<,'>%! sort
 :help netrw
-:e .
 :help snippets
 :he
 :SnipMateOpenSnippetFiles
@@ -132,7 +183,6 @@ $
 :args *.js
 :q
 :e *.js
-:imap
 :map <tab>
 :map <TAB>
 :help nerdcommenter
@@ -145,7 +195,6 @@ $
 :set shortmess+=c
 :set compl
 :UltiSnipsEdit
-:q!
 :help :UltiSnipsEdit
 :map tab
 :e vimrc
@@ -245,20 +294,48 @@ $
 :%s/\<haveVundleAlready\>/
 
 # Search String History (newest to oldest):
-? snipmate
-? vim-snipmate
+? vim-dirvish
+? .vim$
+? .vim
+? vim
+? sneak
+? vinegar
+? vim-vinegar
+? f
+??help sneak
+? label
+? lael
+? hi
+? streak
+? options
+? sneak#label = 1
+? option
+? Plug
+? \<filereadable\>
 ? \Vfor\%#
+? snipMateBack
+? snipmate
+? supertab
+? snipMateTrigger
+? g:snips_trigger_key
+? mappings
+??snipMate
+? -Space
+??mappings
+? vim-sneak
+??config
+? garbas
+? Snip
+? Auto
+? vim-snipmate
 ? tpope/vim-obsession
 ? tpope
-? supertab
 ? <tab>
 ? \Vdate\%#
 ? ervand
 ? ervandew
-? garbas
 ? <CR>
 ? "
-? mappings
 ? Shougo
 ? shougo
 ? delete
@@ -335,8 +412,6 @@ $
 ? hard
 ? sneaqk
 ? scr
-? sneak
-? streak
 ? snea
 ? change
 ? argument
@@ -349,6 +424,7 @@ $
 
 # Input Line History (newest to oldest):
 @y
+@autoload
 @[{y(es)},n(o),a(ll),q(uit)] y
 @test
 @n
@@ -360,248 +436,208 @@ $
 # Input Line History (newest to oldest):
 
 # Registers:
-"0	LINE	0
-	
-""1	LINE	0
-	
+""0	CHAR	0
+	this is a sentence with multiple 
+"1	LINE	0
+	echo 'lol'
 "2	LINE	0
-	Jqdd
+	Plug 'justinmk/vim-dirvish'
 "3	LINE	0
-	J
+	/home/matt/.vim/vimrc
 "4	LINE	0
-	Plug 'garbas/vim-snipmate'
+	/home/matt/.vim/session/
 "5	LINE	0
-	
+	/home/matt/.vim/plugin/
 "6	LINE	0
-	J
+	/home/matt/.vim/plugged/
 "7	LINE	0
-	Kqdd
+	/home/matt/.vim/ftplugin/
 "8	LINE	0
-	L
+	/home/matt/.vim/dirs/
 "9	LINE	0
-	l
+	/home/matt/.vim/autoload/
 "j	CHAR	0
 	j q:b 	:bdele	 						:bdele	 						  Qvisalvisual qj
+"o	CHAR	0
+	jjko€ÿXkdd
 "-	CHAR	0
-	J
+	this is a sentence with multiple 
 
 # global variables:
 
 # File marks:
 'V  1  0  ~/.vimrc
-'0  16  0  ~/.vim/vimrc
-'1  18  0  ~/.vim/plugs.vim
-'2  1  0  ~/.vim/test.js
-'3  27  0  ~/.vim/plugs.vim
-'4  12  0  ~/.vim/vimrc
-'5  1  0  ~/.vim/plugin/silversearcher.vim
-'6  1  0  ~/.vim/plugs.vim
-'7  4  0  ~/.vim/vimrc
-'8  32  0  ~/.vim/plugs.vim
-'9  1  0  ~/.vim/vimrc
+'0  15  0  ~/.vim/config.vim
+'1  1  0  ~/.vim/new
+'2  12  8  ~/.vim/mappings.vim
+'3  1  0  ~/.vim/mappings.vim
+'4  10  0  ~/.vim/mappings.vim
+'5  1  0  ~/.vim/plugs.vim
+'6  1  0  ~/.vim/plugs
+'7  6  0  ~/.vim
+'8  17  0  ~/.vim
+'9  34  0  ~/.vim
 
 # Jumplist (newest first):
--'  16  0  ~/.vim/vimrc
--'  1  0  ~/.vim/vimrc
--'  18  0  ~/.vim/plugs.vim
--'  1  0  ~/.vim/plugs.vim
--'  1  0  ~/.vim/test.js
--'  1  0  ~/.vim/mappings.vim
--'  13  0  ~/.vim/mappings.vim
--'  9  0  ~/.vim/mappings.vim
--'  32  13  ~/.vim/plugs.vim
--'  25  0  ~/.vim/plugs.vim
--'  27  3  ~/.vim/plugs.vim
--'  12  0  ~/.vim/vimrc
--'  1  0  ~/.vim/autocmd.vim
--'  1  0  ~/.vim/plugin/silversearcher.vim
--'  7  0  ~/.vim/plugs.vim
--'  11  0  ~/.vim/vimrc
--'  4  0  ~/.vim/vimrc
--'  23  6  ~/.vim/plugs.vim
--'  21  6  ~/.vim/plugs.vim
--'  17  3  ~/.vim/vimrc
--'  25  0  ~/.vim/mappings.vim
--'  15  0  ~/.vim/vimrc
--'  35  26  ~/.vim/plugs.vim
--'  14  0  ~/.vim/vimrc
--'  34  0  ~/.vim/plugs.vim
--'  42  0  ~/.vim/plugs.vim
--'  3  0  ~/.vim/mappings.vim
--'  62  0  ~/.vim/plugs.vim
--'  56  0  ~/.vim/plugs.vim
--'  55  0  ~/.vim/plugs.vim
--'  57  4  ~/.vim/plugs.vim
--'  22  22  ~/.vim/mappings.vim
--'  21  21  ~/.vim/mappings.vim
--'  10  20  ~/.vim/mappings.vim
--'  8  47  ~/.vim/mappings.vim
--'  2  38  ~/.vim/mappings.vim
--'  36  0  ~/.vim/plugs.vim
--'  8  5  ~/.vim/vimrc
--'  9  0  ~/.vim/vimrc
--'  2  0  ~/.vim/vimrc
--'  33  0  ~/.vim/plugs.vim
--'  43  0  ~/.vim/plugs.vim
--'  1  0  ~/.vimrc
--'  27  3  ~/.vim/config.vim
+-'  15  0  ~/.vim/config.vim
 -'  1  0  ~/.vim/config.vim
--'  1  0  ~/.vim/plugged/vim-snippets/snippets/vimrc
--'  29  23  ~/.vim/plugs.vim
--'  47  0  ~/.vim/plugs.vim
--'  1  0  test/
+-'  1  0  ~/.vim/new
+-'  11  0  ~/.vim/mappings.vim
+-'  1  0  ~/.vim/mappings.vim
+-'  12  8  ~/.vim/mappings.vim
+-'  10  0  ~/.vim/mappings.vim
+-'  22  0  ~/.vim/plugs.vim
+-'  3  0  ~/.vim/plugs.vim
+-'  1  0  ~/.vim/plugs.vim
+-'  1  0  ~/.vim/plugs
+-'  6  0  ~/.vim
 -'  17  0  ~/.vim
 -'  1  0  ~/.vim
--'  23  0  ~/.vim
--'  8  0  ~/.vim/plugged/vim-snippets/snippets/javascript/javascript.snippets
--'  1  0  ~/.vim/plugged/vim-snippets/snippets/javascript/javascript.snippets
--'  1  1  ~/.vim/new.js
--'  6  0  ~/.vim/plugged/vim-snippets/UltiSnips/javascript.snippets
--'  8  0  ~/.vim/plugs.vim
--'  63  0  ~/.vim/plugs.vim
--'  58  4  ~/.vim/plugs.vim
--'  37  0  ~/.vim/plugs.vim
--'  1  0  ~/.vim/plugin/silversearcher.vim
--'  1  0  ~/.vim/plugin/silversearcher.vim
--'  1  0  ~/.vim/autocmd.vim
--'  1  0  ~/.vim/plugin/silversearcher.vim
--'  26  0  ~/.vim/plugs.vim
--'  1  0  ~/.vim/autocmd.vim
--'  1  0  ~/.vim/plugin/silversearcher.vim
--'  1  0  ~/.vim/test.js
--'  1  0  ~/.vim/mappings.vim
+-'  34  0  ~/.vim
 -'  13  0  ~/.vim/mappings.vim
--'  9  0  ~/.vim/mappings.vim
--'  31  13  ~/.vim/plugs.vim
--'  24  0  ~/.vim/plugs.vim
--'  1  0  ~/.vim/autocmd.vim
--'  1  0  ~/.vim/plugin/silversearcher.vim
--'  22  6  ~/.vim/plugs.vim
--'  20  6  ~/.vim/plugs.vim
--'  18  0  ~/.vim/plugs.vim
--'  1  0  ~/.vim/plugs.vim
--'  1  0  ~/.vim/test.js
--'  1  0  ~/.vim/mappings.vim
--'  13  0  ~/.vim/mappings.vim
--'  9  0  ~/.vim/mappings.vim
--'  32  13  ~/.vim/plugs.vim
--'  25  0  ~/.vim/plugs.vim
--'  27  3  ~/.vim/plugs.vim
--'  1  0  ~/.vim/autocmd.vim
--'  1  0  ~/.vim/plugin/silversearcher.vim
--'  7  0  ~/.vim/plugs.vim
+-'  20  19  ~/.vim/plugs.vim
 -'  23  6  ~/.vim/plugs.vim
--'  21  6  ~/.vim/plugs.vim
+-'  50  31  ~/.vim/plugs.vim
+-'  27  5  ~/.vim/plugs.vim
+-'  4  0  ~/.vim/config.vim
+-'  25  0  ~/.vim/plugs.vim
+-'  3  0  ~/.vim/config.vim
+-'  16  0  ~/.vim/config.vim
+-'  8  0  ~/.vim/mappings.vim
+-'  9  0  ~/.vim/mappings.vim
+-'  11  0  ~/.vim/config.vim
+-'  7  0  ~/.vim/config.vim
+-'  13  0  ~/.vim/config.vim
+-'  14  0  ~/.vim/config.vim
+-'  27  15  ~/.vim/config.vim
+-'  2  0  ~/.vim/mappings.vim
+-'  12  0  ~/.vim/config.vim
+-'  21  10  ~/.vim/plugs.vim
+-'  26  0  ~/.vim/plugs.vim
+-'  24  0  ~/.vim/plugs.vim
+-'  19  0  ~/.vim/plugs.vim
+-'  18  0  ~/.vim/plugs.vim
+-'  16  1  ~/.vim/plugs.vim
+-'  2  4  ~/.vim/plugs.vim
+-'  1  0  ~/.vim/plug
+-'  16  0  ~/.vim/mappings.vim
+-'  15  3  ~/.vim/mappings.vim
+-'  28  0  ~/.vim/config.vim
+-'  3  0  ~/.vim/mappings.vim
+-'  28  22  ~/.vim/plugs.vim
+-'  29  0  ~/.vim/plugs.vim
+-'  4  0  ~/.vim/mappings.vim
+-'  1  0  ~/.vim/mappings
+-'  16  31  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  17  9  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  33  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  32  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  31  9  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  30  12  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  20  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  19  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  18  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  1  0  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  1  0  vim-snipmate/after
+-'  17  0  ~/.vim/vimrc
+-'  1  0  vim-snipmate/after/
+-'  2  0  ~/.vim/vimrc
+-'  1  0  ~/.vim/vimrc
+-'  8  5  ~/.vim/vimrc
+-'  16  0  ~/.vim/vimrc
+-'  18  0  ~/.vim/vimrc
+-'  14  0  ~/.vim/vimrc
+-'  16  31  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  17  9  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  33  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  32  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  31  9  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  30  12  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  20  23  ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+-'  26  0  ~/.vim
+-'  18  0  ~/.vim
+-'  1  0  ~/.vim/plugs
+-'  6  0  ~/.vim
+-'  17  0  ~/.vim
+-'  1  0  ~/.vim
 
 # History of marks within files (newest to oldest):
 
-> ~/.vim/vimrc
-	"	16	0
-	.	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
+> ~/.vim/config.vim
+	"	15	0
+	^	15	17
+	.	15	16
+	+	12	22
+	+	6	0
+	+	11	13
+	+	24	0
+	+	22	0
+	+	29	0
+	+	29	0
+	+	13	0
+	+	20	0
+	+	10	0
+	+	7	0
+	+	10	20
+	+	7	15
+	+	4	20
+	+	2	0
+	+	21	0
+	+	22	0
+	+	21	0
+	+	23	28
+	+	25	37
+	+	13	15
+	+	29	0
+	+	18	0
+	+	1	0
+	+	13	0
+	+	1	0
+	+	29	45
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	27	35
+	+	27	0
+	+	28	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	13	0
+	+	12	0
+	+	13	20
+	+	13	0
+	+	13	20
+	+	13	0
+	+	13	0
+	+	13	0
 	+	16	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	9	0
-	+	17	0
-	+	16	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	17875
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	16	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
-	+	17	0
+	+	13	0
+	+	13	0
+	+	15	0
+	+	7	0
+	+	7	0
+	+	7	0
+	+	15	16
+
+> ~/.vim/new
+	"	1	0
+	^	1	35
+	.	1	0
+	+	1	0
 
 > ~/.vim/ControlP
-	"	10	0
-	.	2	0
+	"	1	0
+	.	1	0
 	+	1	0
 	+	1	0
 	+	1	0
@@ -701,106 +737,453 @@ $
 	+	1	0
 	+	1	0
 	+	1	0
-	+	2	0
+	+	1	0
+
+> ~/.vim/mappings.vim
+	"	11	0
+	.	11	0
+	+	16	0
+	+	16	16
+	+	16	0
+	+	16	0
+	+	16	12
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	8
+	+	16	0
+	+	16	37
+	+	16	0
+	+	16	0
+	+	16	37
+	+	16	0
+	+	16	0
+	+	16	8
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	11	45
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	16	0
+	+	11	0
+	+	16	0
+	+	13	12
+	+	16	0
+	+	16	0
+	+	16	0
+	+	13	7
+	+	16	0
+	+	13	10
+	+	16	0
+	+	16	0
+	+	15	0
+	+	15	0
+	+	15	30
+	+	15	0
+	+	15	0
+	+	15	17
+	+	15	0
+	+	13	8
+	+	15	10
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	14	9
+	+	15	0
+	+	15	0
+	+	14	30
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	15
+	+	14	6
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	15	0
+	+	13	29
+	+	13	0
+	+	12	0
+	+	10	0
+	+	13	0
+	+	8	0
+	+	13	0
+	+	11	0
+	+	10	0
+	+	12	0
+	+	11	0
 
 > ~/.vim/plugs.vim
-	"	18	0
-	.	18	0
-	+	20	0
-	+	48	0
-	+	49	0
-	+	48	0
-	+	59	3
-	+	51	0
-	+	55	0
-	+	51	0
-	+	20	0
+	"	22	0
+	.	22	0
+	+	62	3
+	+	54	0
+	+	58	0
+	+	54	0
+	+	21	0
 	+	1	0
-	+	47	0
-	+	47	6
-	+	47	0
-	+	47	30
-	+	47	0
-	+	47	0
-	+	47	0
-	+	47	0
-	+	47	22
-	+	47	0
-	+	47	45
-	+	47	26
-	+	47	32
-	+	47	0
-	+	47	39
-	+	47	28
-	+	47	34
-	+	47	31
-	+	47	0
-	+	47	0
-	+	47	4
-	+	47	4
-	+	47	4
-	+	47	0
-	+	47	0
-	+	63	0
-	+	63	0
+	+	50	0
+	+	50	6
+	+	50	0
+	+	50	30
+	+	50	0
+	+	50	0
+	+	50	0
+	+	50	0
+	+	50	22
+	+	50	0
+	+	50	45
+	+	50	26
+	+	50	32
+	+	50	0
+	+	50	39
+	+	50	28
+	+	50	34
+	+	50	31
+	+	50	0
+	+	50	0
+	+	50	4
+	+	50	4
+	+	50	4
+	+	50	0
+	+	50	0
+	+	66	0
+	+	66	0
 	+	8	0
-	+	47	0
-	+	47	0
-	+	47	0
-	+	47	0
-	+	47	0
-	+	47	0
-	+	47	0
-	+	29	0
+	+	50	0
+	+	50	0
+	+	50	0
+	+	50	0
+	+	50	0
+	+	50	0
+	+	50	0
+	+	32	0
+	+	38	0
+	+	32	0
+	+	37	29
+	+	38	6
+	+	37	0
+	+	38	0
+	+	37	0
+	+	38	0
+	+	37	0
+	+	38	0
+	+	60	0
+	+	60	0
+	+	60	0
+	+	59	0
+	+	37	0
+	+	38	0
+	+	38	7
+	+	38	0
+	+	38	6
+	+	38	22
 	+	35	0
+	+	38	0
+	+	35	0
+	+	38	0
+	+	35	0
+	+	26	24
+	+	30	0
+	+	30	0
+	+	30	0
+	+	30	0
+	+	30	0
+	+	30	0
+	+	30	0
+	+	30	3
+	+	30	0
+	+	30	0
 	+	29	0
+	+	29	0
+	+	29	0
+	+	29	0
+	+	30	0
+	+	35	0
+	+	18	0
+	+	18	0
+	+	37	0
+	+	18	0
+	+	29	0
+	+	29	0
+	+	28	0
+	+	29	0
+	+	28	22
+	+	18	0
+	+	20	23
+	+	2	1
+	+	27	31
+	+	25	0
+	+	22	0
+	+	22	0
+
+> ~/.vim/plugs
+	"	1	0
+
+> ~/.vim/plugged/vim-dirvish/doc/dirvish.txt
+	"	80	63
+
+> ~/.vim
+	"	4	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	0
+	+	1	2
+	+	1	0
+	+	1	0
+
+> ~/.vim/session.vim
+	"	1	0
+
+> ~/.vim/plugged/vim-sneak/doc/sneak.txt
+	"	67	34
+	.	43	0
+	+	44	32
+	+	44	4
+	+	44	16
+	+	61	41
+	+	44	0
+	+	43	0
+
+> /usr/share/vim/vim74/doc/change.txt
+	"	198	7
+
+> /usr/share/vim/vim74/doc/index.txt
+	"	783	36
+
+> ~/.vim/plug
+	"	1	0
+
+> ~/.vim/plugged/vim-snipmate/doc/SnipMate.txt
+	"	201	6
+
+> ~/.vim/plugged/supertab/doc/supertab.txt
+	"	136	44
+
+> ~/.vim/mappings
+	"	1	0
+
+> ~/.vim/plugged/vim-snipmate/after/plugin/snipMate.vim
+	"	16	31
+
+> ~/.vim/vimrc
+	"	17	0
+	.	2	0
+	+	16	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	9	0
+	+	18	0
+	+	16	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	17875
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	16	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	18	0
+	+	2	0
+
+> vim-snipmate/after
+	"	1	0
+
+> ~/.vimrc
+	"	1	0
+	^	351	59
+	.	17	0
+	+	3	47
+	+	102	0
+	+	119	0
+	+	119	0
+	+	112	0
+	+	114	0
+	+	114	21
+	+	3	22
+	+	112	19
+	+	114	19
+	+	114	19
+	+	114	19
+	+	114	19
+	+	114	19
+	+	114	0
+	+	3	22
+	+	114	0
+	+	3	22
+	+	114	0
+	+	3	22
+	+	3	22
+	+	3	22
+	+	3	22
+	+	3	22
+	+	3	23
+	+	3	22
+	+	3	28
+	+	3	22
+	+	3	93
+	+	3	22
+	+	3	22
+	+	3	22
+	+	3	23
+	+	3	22
+	+	3	25
+	+	3	22
+	+	3	0
+	+	167	0
+	+	17	0
+	+	17	0
+	+	17	4
+	+	17	0
+	+	17	0
+	+	7	0
+	+	7	33
+	+	7	0
+	+	7	0
+	+	7	0
+	+	33	0
 	+	34	29
-	+	35	6
-	+	34	0
-	+	35	0
-	+	34	0
-	+	35	0
-	+	34	0
-	+	35	0
-	+	57	0
-	+	57	0
-	+	57	0
-	+	56	0
-	+	34	0
-	+	35	0
-	+	35	7
-	+	35	0
-	+	35	6
-	+	35	22
-	+	32	0
-	+	35	0
-	+	32	0
-	+	35	0
-	+	32	0
-	+	25	24
-	+	27	0
-	+	27	0
-	+	27	0
-	+	27	0
-	+	27	0
-	+	27	0
-	+	27	0
-	+	27	3
-	+	27	0
-	+	27	0
 	+	26	0
 	+	26	0
-	+	26	0
+	+	25	0
+	+	28	0
+	+	39	0
+	+	37	0
+	+	114	0
+	+	10	0
+	+	17	0
+	+	17	0
+	+	23	0
 	+	26	0
 	+	27	0
-	+	32	0
-	+	18	0
-	+	18	0
+	+	15	0
+	+	354	58
+	+	354	0
+	+	354	0
+	+	348	0
+	+	354	0
+	+	351	58
+	+	17	0
 
 > ~/.vim/test.js
-	"	1	0
-	^	1	0
-	.	1	0
+	"	1	22
+	^	1	20
+	.	2	0
 	+	1	0
 	+	1	17
 	+	1	27
@@ -895,111 +1278,15 @@ $
 	+	1	0
 	+	1	0
 	+	1	0
-
-> ~/.vim/mappings.vim
-	"	1	0
-	^	1	1
-	.	1	0
-	+	4	0
-	+	1	0
-	+	1	17
-	+	4	1
-	+	1	0
-	+	1	3
-	+	41	0
-	+	38	0
-	+	37	10
-	+	40	3
-	+	50	0
-	+	50	0
-	+	52	0
-	+	38	10
-	+	39	10
-	+	4	0
-	+	1	15
-	+	1	23
-	+	1	23
-	+	4	0
-	+	5	0
-	+	4	38
-	+	5	0
-	+	7	0
-	+	7	0
-	+	4	0
 	+	2	0
-	+	13	0
-	+	26	0
-	+	25	4
-	+	37	0
-	+	36	3
-	+	37	0
-	+	25	16
-	+	37	0
-	+	11	0
-	+	1	0
-	+	13	0
-	+	7	0
-	+	4	0
-	+	11	0
-	+	11	0
-	+	11	16
-	+	11	0
-	+	11	0
-	+	11	0
-	+	10	0
-	+	13	0
-	+	1	20
-	+	7	0
-	+	1	22
-	+	6	0
-	+	13	0
-	+	1	15
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	25
-	+	13	25
-	+	13	0
-	+	13	7
-	+	13	0
-	+	13	41
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	3
-	+	13	0
-	+	13	30
-	+	13	0
-	+	13	3
-	+	13	0
-	+	13	1
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	8
-	+	13	8
-	+	13	8
-	+	13	0
-	+	13	0
-	+	13	0
-	+	12	0
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	36
-	+	13	36
-	+	13	0
-	+	13	35
-	+	13	0
-	+	13	0
-	+	13	0
-	+	13	36
-	+	13	0
-	+	1	0
+
+> ~/.vim/plugged/AutoComplPop/autoload/acp.vim
+	"	140	2
+
+> ~/.vim/plugged/AutoComplPop/plugin/acp.vim
+	"	135	35
+	.	136	0
+	+	136	0
 
 > ~/.vim/autocmd.vim
 	"	1	0
@@ -1019,138 +1306,11 @@ $
 	+	1	0
 	+	13	0
 
-> ~/.vim/plugged/supertab/doc/supertab.txt
-	"	292	0
-
 > /usr/share/vim/vim74/doc/cmdline.txt
 	"	129	38
 
-> ~/.vim/plugged/vim-snipmate/doc/SnipMate.txt
-	"	211	37
-
 > /usr/share/vim/vim74/doc/eval.txt
 	"	6089	16
-
-> ~/.vimrc
-	"	1	0
-	^	351	59
-	.	17	0
-	+	3	47
-	+	102	0
-	+	119	0
-	+	119	0
-	+	112	0
-	+	114	0
-	+	114	21
-	+	3	22
-	+	112	19
-	+	114	19
-	+	114	19
-	+	114	19
-	+	114	19
-	+	114	19
-	+	114	0
-	+	3	22
-	+	114	0
-	+	3	22
-	+	114	0
-	+	3	22
-	+	3	22
-	+	3	22
-	+	3	22
-	+	3	22
-	+	3	23
-	+	3	22
-	+	3	28
-	+	3	22
-	+	3	93
-	+	3	22
-	+	3	22
-	+	3	22
-	+	3	23
-	+	3	22
-	+	3	25
-	+	3	22
-	+	3	0
-	+	167	0
-	+	17	0
-	+	17	0
-	+	17	4
-	+	17	0
-	+	17	0
-	+	7	0
-	+	7	33
-	+	7	0
-	+	7	0
-	+	7	0
-	+	33	0
-	+	34	29
-	+	26	0
-	+	26	0
-	+	25	0
-	+	28	0
-	+	39	0
-	+	37	0
-	+	114	0
-	+	10	0
-	+	17	0
-	+	17	0
-	+	23	0
-	+	26	0
-	+	27	0
-	+	15	0
-	+	354	58
-	+	354	0
-	+	354	0
-	+	348	0
-	+	354	0
-	+	351	58
-	+	17	0
-
-> ~/.vim/config.vim
-	"	27	3
-	^	27	4
-	.	27	3
-	+	12	22
-	+	6	0
-	+	11	13
-	+	23	0
-	+	21	0
-	+	28	0
-	+	28	0
-	+	13	0
-	+	19	0
-	+	10	0
-	+	7	0
-	+	10	20
-	+	7	15
-	+	4	20
-	+	2	0
-	+	20	0
-	+	21	0
-	+	20	0
-	+	22	28
-	+	24	37
-	+	13	15
-	+	28	0
-	+	17	0
-	+	1	0
-	+	16	0
-	+	1	0
-	+	28	45
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	28	0
-	+	26	35
-	+	27	3
 
 > ~/.vim/plugged/vim-snippets/snippets/vimrc
 	"	1	0
@@ -1374,12 +1534,6 @@ $
 > /usr/share/vim/vim74/doc/help.txt
 	"	1	0
 
-> ~/.vim/plug
-	"	1	0
-
-> ~/.vim/plugged/AutoComplPop/autoload/acp.vim
-	"	196	71
-
 > /usr/share/vim/vim74/doc/options.txt
 	"	1825	25
 
@@ -1435,9 +1589,6 @@ $
 > ~/.vim/dirs/tmp/autocmd.vim.swp
 	"	1	0
 
-> /usr/share/vim/vim74/doc/change.txt
-	"	412	0
-
 > /usr/share/vim/vim74/doc/usr_41.txt
 	"	786	27
 
@@ -1491,9 +1642,6 @@ $
 
 > ~/.vim/dirs/viminfo
 	"	171	1
-
-> ~/.vim/plugs
-	"	1	0
 
 > ~/.vim/autoload/test/workflow.vader
 	"	49	0
@@ -1637,9 +1785,6 @@ $
 
 > /usr/share/vim/vim74/doc/usr_30.txt
 	"	1	0
-
-> /usr/share/vim/vim74/doc/index.txt
-	"	9	0
 
 > /usr/share/vim/vim74/doc/tagsrch.txt
 	"	41	33

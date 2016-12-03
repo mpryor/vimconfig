@@ -9,9 +9,10 @@ nnoremap <Space>% :%s/\<<C-r>=expand("<cword>")<CR>\>/
 "Remove highlight
 nnoremap <C-l> :nohl<CR>
 inoremap jj <ESC>
+echo 'lol'
 
-let g:SuperTabMappingForward = '<C-l>'
-let g:SuperTabMappingBackward = '<S-C-l>'
+imap <C-j> <Plug>snipMateNextOrTrigger
+imap <S-j> <Plug>snipMateBack
 
 "{{{ Window/buffer Management
 nnoremap <SPACE>v <C-w>v

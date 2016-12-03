@@ -15,14 +15,18 @@ call plug#begin('~/.vim/plugged')
 "You can disable or add new ones here:
 "Plugins from github repos:
 
-"Plug 'garbas/vim-snipmate'
+Plug 'garbas/vim-snipmate'
 Plug 'elzr/vim-json'
+Plug 'justinmk/vim-sneak'
 let g:vim_json_syntax_conceal = 0 
+Plug 'justinmk/vim-dirvish'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession'
+Plug 'ervandew/supertab'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'mattn/emmet-vim'
