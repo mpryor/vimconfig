@@ -9,7 +9,7 @@ set incsearch
 set hlsearch
 "Cursorline settings
 set cursorline
-colorscheme jelleybeans
+colorscheme apprentice
 hi CursorLineNr term=bold ctermfg=Yellow gui=bold guifg=Yellow
 hi CursorLine ctermbg=236
 let g:sneak#label = 1

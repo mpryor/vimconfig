@@ -12,7 +12,7 @@ set cursorline
 colorscheme jelleybeans
 hi CursorLineNr term=bold ctermfg=Yellow gui=bold guifg=Yellow
 hi CursorLine ctermbg=236
-let g:sneak#streak = 1
+let g:sneak#label = 1
 
 let g:indent_guides_auto_colors = 0
 hi IndentGuidesOdd  ctermbg=black

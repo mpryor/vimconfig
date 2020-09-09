@@ -6,7 +6,7 @@
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-let s:filtermx = '|\(\%(bem\|html\|haml\|slim\|e\|c\|s\|fc\|xsl\|t\|\/[^ ]\+\)\s*,\{0,1}\s*\)*$'
+let s:filtermx = '|\(\%(bem\|html\|blade\|haml\|slim\|e\|c\|s\|fc\|xsl\|t\|\/[^ ]\+\)\s*,\{0,1}\s*\)*$'
 
 function! emmet#getExpandos(type, key) abort
   let expandos = emmet#getResource(a:type, 'expandos', {})
@@ -85,12 +85,7 @@ function! emmet#isExtends(type, extend) abort
   if !has_key(s:emmet_settings[a:type], 'extends')
     return 0
   endif
-  let extends = s:emmet_settings[a:type].extends
-  if type(extends) ==# 1
-    let tmp = split(extends, '\s*,\s*')
-    unlet! extends
-    let extends = tmp
-  endif
+  let extends = emmet#lang#getExtends(a:type)
   for ext in extends
     if a:extend ==# ext
       return 1
@@ -119,8 +114,8 @@ function! emmet#isExpandable() abort
   endif
   let part = matchstr(line, '\(\S.*\)$')
   let type = emmet#getFileType()
-  let ftype = emmet#lang#exists(type) ? type : 'html'
-  let part = emmet#lang#{ftype}#findTokens(part)
+  let rtype = emmet#lang#type(type)
+  let part = emmet#lang#{rtype}#findTokens(part)
   return len(part) > 0
 endfunction
 
@@ -182,18 +177,22 @@ endfunction
 function! s:itemno(itemno, current) abort
   let current = a:current
   if current.basedirect > 0
-    if current.basevalue ==# 0
-      return a:itemno
-    else
-      return current.basevalue - 1 + a:itemno
-    endif
+    return current.basevalue - 1 + a:itemno
   else
-    if current.basevalue ==# 0
-      return current.multiplier - 1 - a:itemno
-    else
-      return current.multiplier + current.basevalue - 2 - a:itemno
-    endif
+    return current.multiplier + current.basevalue - 2 - a:itemno
   endif
+endfunction
+
+function! s:localvar(current, key) abort
+  let val = ''
+  let cur = a:current
+  while !empty(cur)
+    if has_key(cur, 'variables') && has_key(cur.variables, a:key)
+      return cur.variables[a:key]
+    endif
+    let cur = cur.parent
+  endwhile
+  return ''
 endfunction
 
 function! emmet#toString(...) abort
@@ -291,6 +290,7 @@ function! emmet#toString(...) abort
         let inner = current.value[1:-2]
       endif
       let inner = substitute(inner, "\n", "\n" . indent, 'g')
+      let str = substitute(str, '\${:\(\w\+\)}', '\=s:localvar(current, submatch(1))', '')
       let str = substitute(str, '\${child}', inner, '')
     endif
     let itemno = itemno + 1
@@ -329,14 +329,14 @@ function! emmet#getResource(type, name, default) abort
     let ret = a:default
 
     if has_key(s:emmet_settings[type], 'extends')
-      let extends = s:emmet_settings[type].extends
-      if type(extends) ==# 1
-        let tmp = split(extends, '\s*,\s*')
-        unlet! extends
-        let extends = tmp
-      endif
+      let extends = emmet#lang#getExtends(a:type)
+      call reverse(extends) " reverse to overwrite the correct way
       for ext in extends
-        if has_key(s:emmet_settings, ext) && has_key(s:emmet_settings[ext], a:name)
+        if !has_key(s:emmet_settings, ext)
+          continue
+        endif
+
+        if has_key(s:emmet_settings[ext], a:name)
           if type(ret) ==# 3 || type(ret) ==# 4
             call emmet#mergeConfig(ret, s:emmet_settings[ext][a:name])
           else
@@ -371,14 +371,43 @@ endfunction
 
 function! emmet#getFileType(...) abort
   let flg = get(a:000, 0, 0)
-  let type = ''
-
+  
   if has_key(s:emmet_settings, &filetype)
     let type = &filetype
+    if emmet#getResource(type, 'ignore_embeded_filetype', 0)
+      return type 
+    endif
+  endif 
+
+  let pos = emmet#util#getcurpos()
+  let type = synIDattr(synID(max([pos[1], 1]), max([pos[2], 1]), 1), 'name')
+
+  " ignore htmlTagName as it seems to occur too often
+  if type == 'htmlTagName'
+    let type = ''
+  endif
+  if type =~ '^mkdSnippet'
+    let type = tolower(type[10:])
+  endif
+
+  if type =~? '^css'
+    let type = 'css'
+  elseif type =~? '^html'
+    let type = 'html'
+  elseif type =~? '^jsx'
+    let type = 'jsx'
+  elseif (type =~? '^js\w' || type =~? '^javascript') && !(&filetype =~? 'jsx')
+    let type = 'javascript'
+  elseif type =~? '^tsx'
+    let type = 'tsx'
+  elseif type =~? '^ts\w' || type =~? '^typescript'
+    let type = 'typescript'
+  elseif type =~? '^xml'
+    let type = 'xml'
   else
     let types = split(&filetype, '\.')
     for part in types
-      if emmet#lang#exists(part)
+      if has_key(s:emmet_settings, part)
         let type = part
         break
       endif
@@ -394,24 +423,8 @@ function! emmet#getFileType(...) abort
       endif
     endfor
   endif
-  if type ==# 'html'
-    let pos = emmet#util#getcurpos()
-    let type = synIDattr(synID(pos[1], pos[2], 1), 'name')
-    if type =~# '^css\w'
-      let type = 'css'
-    endif
-    if type =~# '^html\w'
-      let type = 'html'
-    endif
-    if type =~# '^javaScript'
-      let type = 'javascript'
-    endif
-    if len(type) ==# 0 && type =~# '^xml'
-      let type = 'xml'
-    endif
-  endif
-  if len(type) ==# 0 | let type = 'html' | endif
-  return type
+
+  return len(type) == 0 ? 'html' : type
 endfunction
 
 function! emmet#getDollarExprs(expand) abort
@@ -506,8 +519,7 @@ function! emmet#unescapeDollarExpr(expand) abort
 endfunction
 
 function! emmet#expandAbbr(mode, abbr) range abort
-  let type = emmet#getFileType()
-  let rtype = emmet#lang#type(emmet#getFileType(1))
+  let type = emmet#getFileType(1)
   let indent = emmet#getIndentation(type)
   let expand = ''
   let line = ''
@@ -644,8 +656,8 @@ function! emmet#expandAbbr(mode, abbr) range abort
       let part = matchstr(line, '\([a-zA-Z0-9:_\-\@|]\+\)$')
     else
       let part = matchstr(line, '\(\S.*\)$')
-      let ftype = emmet#lang#exists(type) ? type : 'html'
-      let part = emmet#lang#{ftype}#findTokens(part)
+      let rtype = emmet#lang#type(type)
+      let part = emmet#lang#{rtype}#findTokens(part)
       let line = line[0: strridx(line, part) + len(part) - 1]
     endif
     if col('.') ==# col('$')
@@ -802,9 +814,9 @@ function! emmet#imageSize() abort
   return ''
 endfunction
 
-function! emmet#encodeImage() abort
+function! emmet#imageEncode() abort
   let type = emmet#getFileType()
-  return emmet#lang#{emmet#lang#type(type)}#encodeImage()
+  return emmet#lang#{emmet#lang#type(type)}#imageEncode()
 endfunction
 
 function! emmet#toggleComment() abort
@@ -836,6 +848,12 @@ function! emmet#removeTag() abort
   return ''
 endfunction
 
+function! emmet#mergeLines() abort
+  let type = emmet#getFileType()
+  call emmet#lang#{emmet#lang#type(type)}#mergeLines()
+  return ''
+endfunction
+
 function! emmet#anchorizeURL(flag) abort
   let mx = 'https\=:\/\/[-!#$%&*+,./:;=?@0-9a-zA-Z_~]\+'
   let pos1 = searchpos(mx, 'bcnW')
@@ -856,6 +874,8 @@ function! emmet#anchorizeURL(flag) abort
   let rtype = emmet#lang#type(type)
   if &filetype ==# 'markdown'
     let expand = printf('[%s](%s)', substitute(title, '[\[\]]', '\\&', 'g'), url)
+  elseif &filetype ==# 'rst'
+    let expand = printf('`%s <%s>`_', substitute(title, '[\[\]]', '\\&', 'g'), url)
   elseif a:flag ==# 0
     let a = emmet#lang#html#parseTag('<a>')
     let a.attr.href = url
@@ -1068,6 +1088,7 @@ let s:emmet_settings = {
 \           "d:n": "display:none;",
 \           "d:b": "display:block;",
 \           "d:f": "display:flex;",
+\           "d:if": "display:inline-flex;",
 \           "d:i": "display:inline;",
 \           "d:ib": "display:inline-block;",
 \           "d:ib+": "display: inline-block;\n*display: inline;\n*zoom: 1;",
@@ -1572,6 +1593,47 @@ let s:emmet_settings = {
 \           "cur:m": "cursor:move;",
 \           "cur:p": "cursor:pointer;",
 \           "cur:t": "cursor:text;",
+\           "fxd": "flex-direction:|;",
+\           "fxd:r": "flex-direction:row;",
+\           "fxd:rr": "flex-direction:row-reverse;",
+\           "fxd:c": "flex-direction:column;",
+\           "fxd:cr": "flex-direction:column-reverse;",
+\           "fxw": "flex-wrap: |;",
+\           "fxw:n": "flex-wrap:nowrap;",
+\           "fxw:w": "flex-wrap:wrap;",
+\           "fxw:wr": "flex-wrap:wrap-reverse;",
+\           "fxf": "flex-flow:|;",
+\           "jc": "justify-content:|;",
+\           "jc:fs": "justify-content:flex-start;",
+\           "jc:fe": "justify-content:flex-end;",
+\           "jc:c": "justify-content:center;",
+\           "jc:sb": "justify-content:space-between;",
+\           "jc:sa": "justify-content:space-around;",
+\           "ai": "align-items:|;",
+\           "ai:fs": "align-items:flex-start;",
+\           "ai:fe": "align-items:flex-end;",
+\           "ai:c": "align-items:center;",
+\           "ai:b": "align-items:baseline;",
+\           "ai:s": "align-items:stretch;",
+\           "ac": "align-content:|;",
+\           "ac:fs": "align-content:flex-start;",
+\           "ac:fe": "align-content:flex-end;",
+\           "ac:c": "align-content:center;",
+\           "ac:sb": "align-content:space-between;",
+\           "ac:sa": "align-content:space-around;",
+\           "ac:s": "align-content:stretch;",
+\           "ord": "order:|;",
+\           "fxg": "flex-grow:|;",
+\           "fxsh": "flex-shrink:|;",
+\           "fxb": "flex-basis:|;",
+\           "fx": "flex:|;",
+\           "as": "align-self:|;",
+\           "as:a": "align-self:auto;",
+\           "as:fs": "align-self:flex-start;",
+\           "as:fe": "align-self:flex-end;",
+\           "as:c": "align-self:center;",
+\           "as:b": "align-self:baseline;",
+\           "as:s": "align-self:stretch;",
 \           "pgbb": "page-break-before:|;",
 \           "pgbb:au": "page-break-before:auto;",
 \           "pgbb:al": "page-break-before:always;",
@@ -1595,6 +1657,7 @@ let s:emmet_settings = {
 \           "wfsm:n": "-webkit-font-smoothing:none;"
 \        },
 \        'filters': 'fc',
+\        'ignore_embeded_filetype': 1,
 \    },
 \    'sass': {
 \        'extends': 'css',
@@ -1681,17 +1744,31 @@ let s:emmet_settings = {
 \        },
 \        'default_attributes': {
 \            'a': [{'href': ''}],
+\            'a:blank': [{'href': 'http://|'},{'target': '_blank'},{'rel': 'noopener noreferrer'}],
 \            'a:link': [{'href': 'http://|'}],
 \            'a:mail': [{'href': 'mailto:|'}],
+\            'a:tel': [{'href': 'tel:+|'}],
 \            'abbr': [{'title': ''}],
 \            'acronym': [{'title': ''}],
+\            'acr': [{'title': ''}],
 \            'base': [{'href': ''}],
 \            'bdo': [{'dir': ''}],
 \            'bdo:r': [{'dir': 'rtl'}],
 \            'bdo:l': [{'dir': 'ltr'}],
+\            'button:disabled': [{'disabled': 'disabled'}],
+\            'button:d': [{'disabled': 'disabled'}],
+\            'btn:d': [{'disabled': 'disabled'}],
+\            'button:submit': [{'type': 'submit'}],
+\            'button:s': [{'type': 'submit'}],
+\            'btn:s': [{'type': 'submit'}],
+\            'button:reset': [{'type': 'reset'}],
+\            'button:r': [{'type': 'reset'}],
+\            'btn:r': [{'type': 'reset'}],
 \            'del': [{'datetime': '${datetime}'}],
 \            'ins': [{'datetime': '${datetime}'}],
 \            'link:css': [{'rel': 'stylesheet'}, g:emmet_html5 ? {} : {'type': 'text/css'}, {'href': '|style.css'}, {'media': 'all'}],
+\            'link:manifest': [{'rel': 'manifest'},{'href': '|manifest.json'}],
+\            'link:mf': [{'rel': 'manifest'},{'href': '|manifest.json'}],
 \            'link:print': [{'rel': 'stylesheet'}, g:emmet_html5 ? {} : {'type': 'text/css'}, {'href': '|print.css'}, {'media': 'print'}],
 \            'link:import': [{'rel': 'import'}, {'href': '|.html'}],
 \            'link:im': [{'rel': 'import'}, {'href': '|.html'}],
@@ -1699,14 +1776,23 @@ let s:emmet_settings = {
 \            'link:touch': [{'rel': 'apple-touch-icon'}, {'href': '|favicon.png'}],
 \            'link:rss': [{'rel': 'alternate'}, {'type': 'application/rss+xml'}, {'title': 'RSS'}, {'href': '|rss.xml'}],
 \            'link:atom': [{'rel': 'alternate'}, {'type': 'application/atom+xml'}, {'title': 'Atom'}, {'href': 'atom.xml'}],
+\            'marquee': [{'behavior': ''},{'direction': ''}],
 \            'meta:utf': [{'http-equiv': 'Content-Type'}, {'content': 'text/html;charset=UTF-8'}],
 \            'meta:vp': [{'name': 'viewport'}, {'content': 'width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'}],
 \            'meta:win': [{'http-equiv': 'Content-Type'}, {'content': 'text/html;charset=Win-1251'}],
 \            'meta:compat': [{'http-equiv': 'X-UA-Compatible'}, {'content': 'IE=7'}],
+\            'meta:desc': [{'name': 'description'},{'content': ''}],
+\            'meta:edge': [{'http-equiv': 'X-UA-Compatible'}, {'content': 'ie=edge'}],
+\            'meta:kw': [{'name': 'keywords'},{'content': ''}],
+\            'meta:redirect': [{'http-equiv': 'Content-Type'}, {'content': '0; url=http://example.com'}],
 \            'style': g:emmet_html5 ? [] : [{'type': 'text/css'}],
-\            'script': [{'src': ''}] + (g:emmet_html5 ? [] : [{'type': 'text/javascript'}]),
-\            'script:src': [{'src': ''}] + (g:emmet_html5 ? [] : [{'type': 'text/javascript'}, {'src': ''}]),
+\            'script': g:emmet_html5 ? [] : [{'type': 'text/javascript'}],
+\            'script:src': (g:emmet_html5 ? [] : [{'type': 'text/javascript'}]) + [{'src': ''}],
 \            'img': [{'src': ''}, {'alt': ''}],
+\            'img:srcset': [{'srcset': ''},{'src': ''}, {'alt': ''}],
+\            'img:s': [{'srcset': ''},{'src': ''}, {'alt': ''}],
+\            'img:sizes': [{'sizes': ''},{'srcset': ''},{'src': ''}, {'alt': ''}],
+\            'img:z': [{'sizes': ''},{'srcset': ''},{'src': ''}, {'alt': ''}],
 \            'iframe': [{'src': ''}, {'frameborder': '0'}],
 \            'embed': [{'src': ''}, {'type': ''}],
 \            'object': [{'data': ''}, {'type': ''}],
@@ -1718,6 +1804,10 @@ let s:emmet_settings = {
 \            'area:r': [{'shape': 'rect'}, {'coords': ''}, {'href': ''}, {'alt': ''}],
 \            'area:p': [{'shape': 'poly'}, {'coords': ''}, {'href': ''}, {'alt': ''}],
 \            'link': [{'rel': 'stylesheet'}, {'href': ''}],
+\            'fieldset:disabled': [{'disabled': 'disabled'}],
+\            'fieldset:d': [{'disabled': 'disabled'}],
+\            'fset:d': [{'disabled': 'disabled'}],
+\            'fst:disabled': [{'disabled': 'disabled'}],
 \            'form': [{'action': ''}],
 \            'form:get': [{'action': ''}, {'method': 'get'}],
 \            'form:post': [{'action': ''}, {'method': 'post'}],
@@ -1730,6 +1820,7 @@ let s:emmet_settings = {
 \            'input:t': [{'type': 'text'}, {'name': ''}, {'id': ''}],
 \            'input:search': [{'type': 'search'}, {'name': ''}, {'id': ''}],
 \            'input:email': [{'type': 'email'}, {'name': ''}, {'id': ''}],
+\            'input:tel': [{'type': 'tel'}, {'name': ''}, {'id': ''}],
 \            'input:url': [{'type': 'url'}, {'name': ''}, {'id': ''}],
 \            'input:password': [{'type': 'password'}, {'name': ''}, {'id': ''}],
 \            'input:p': [{'type': 'password'}, {'name': ''}, {'id': ''}],
@@ -1756,6 +1847,20 @@ let s:emmet_settings = {
 \            'input:button': [{'type': 'button'}, {'value': ''}],
 \            'input:b': [{'type': 'button'}, {'value': ''}],
 \            'select': [{'name': ''}, {'id': ''}],
+\            'select:disabled': [{'name': ''}, {'id': ''}, {'disabled': 'disabled'}],
+\            'source:media': [{'media': '(minwidth: )'},{'srcset': ''}],
+\            'source:m': [{'media': '(minwidth: )'},{'srcset': ''}],
+\            'source:media:type': [{'media': '(minwidth: )'},{'srcset': ''},{'type': 'image/'}],
+\            'source:media:sizes': [{'media': '(minwidth: )'},{'srcset': ''},{'sizes': ''}],
+\            'source:sizes:type': [{'sizes': ''},{'srcset': ''},{'type': 'image/'}],
+\            'source:src': [{'src': ''},{'type': ''}],
+\            'source:sc': [{'src': ''},{'type': ''}],
+\            'source:srcset': [{'srcset': ''}],
+\            'source:s': [{'srcset': ''}],
+\            'source:type': [{'srcset': ''},{'type': 'image/'}],
+\            'source:t': [{'srcset': ''},{'type': 'image/'}],
+\            'source:sizes': [{'sizes': ''},{'srcset': ''}],
+\            'source:z': [{'sizes': ''},{'srcset': ''}],
 \            'option': [{'value': ''}],
 \            'textarea': [{'name': ''}, {'id': ''}, {'cols': '30'}, {'rows': '10'}],
 \            'menu:context': [{'type': 'context'}],
@@ -1777,19 +1882,23 @@ let s:emmet_settings = {
 \            'html:*': 'html',
 \            'a:*': 'a',
 \            'menu:*': 'menu',
+\            'mn': 'main',
+\            'tem': 'template',
 \            'bq': 'blockquote',
 \            'acr': 'acronym',
 \            'fig': 'figure',
+\            'figc': 'figcaption',
 \            'ifr': 'iframe',
 \            'emb': 'embed',
 \            'obj': 'object',
-\            'src': 'source',
+\            'src:*': 'source',
 \            'cap': 'caption',
 \            'colg': 'colgroup',
 \            'fst': 'fieldset',
-\            'btn': 'button',
+\            'btn:': 'button',
 \            'optg': 'optgroup',
 \            'opt': 'option',
+\            'pic': 'picture',
 \            'tarea': 'textarea',
 \            'leg': 'legend',
 \            'sect': 'section',
@@ -1808,6 +1917,7 @@ let s:emmet_settings = {
 \            'out': 'output',
 \            'det': 'details',
 \            'cmd': 'command',
+\            'sum': 'summary',
 \        },
 \        'expandos': {
 \            'ol': 'ol>li',
@@ -1821,12 +1931,31 @@ let s:emmet_settings = {
 \            'select': 'select>option',
 \            'optgroup': 'optgroup>option',
 \            'optg': 'optgroup>option',
+\            'ri:dpr': 'img:s',
+\            'ri:d': 'img:s',
+\            'ri:viewport': 'img:z',
+\            'ri:vp': 'img:z',
+\            'ri:art': 'pic>source:m+img',
+\            'ri:a': 'pic>source:m+img',
+\            'ri:type': 'pic>source:t+img',
+\            'ri:t': 'pic>source:t+img',
 \        },
 \        'empty_elements': 'area,base,basefont,br,col,frame,hr,img,input,isindex,link,meta,param,embed,keygen,command',
 \        'block_elements': 'address,applet,blockquote,button,center,dd,del,dir,div,dl,dt,fieldset,form,frameset,hr,iframe,ins,isindex,li,link,map,menu,noframes,noscript,object,ol,p,pre,script,table,tbody,td,tfoot,th,thead,tr,ul,h1,h2,h3,h4,h5,h6',
 \        'inline_elements': 'a,abbr,acronym,applet,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,iframe,img,input,ins,kbd,label,map,object,q,s,samp,script,small,span,strike,strong,sub,sup,textarea,tt,u,var',
 \        'empty_element_suffix': g:emmet_html5 ? '>' : ' />',
 \        'indent_blockelement': 0,
+\        'block_all_childless': 0,
+\    },
+\    'elm': {
+\        'indentation': '    ',
+\        'extends': 'html',
+\    },
+\    'xml': {
+\        'extends': 'html',
+\        'empty_elements': '',
+\        'block_elements': '',
+\        'inline_elements': '',
 \    },
 \    'htmldjango': {
 \        'extends': 'html',
@@ -1838,6 +1967,7 @@ let s:emmet_settings = {
 \        'indentation': '  ',
 \        'extends': 'html',
 \        'snippets': {
+\            '!': "html:5",
 \            '!!!': "doctype html\n",
 \            '!!!4t': "doctype HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"\n",
 \            '!!!4s': "doctype HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"\n",
@@ -1929,6 +2059,9 @@ let s:emmet_settings = {
 \        'attribute_name': {'class': 'className', 'for': 'htmlFor'},
 \        'empty_element_suffix': ' />',
 \    },
+\    'tsx': {
+\        'extends': 'jsx',
+\    },
 \    'xslt': {
 \        'extends': 'xsl',
 \    },
@@ -1958,6 +2091,7 @@ let s:emmet_settings = {
 \                    ."\tbody\n"
 \                    ."\t\t${child}|\n",
 \        },
+\        'ignore_embeded_filetype': 1,
 \    },
 \    'xhtml': {
 \        'extends': 'html'

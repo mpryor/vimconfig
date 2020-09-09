@@ -1,6 +1,7 @@
 " obsession.vim - Continuously updated session files
 " Maintainer:   Tim Pope <http://tpo.pe/>
 " Version:      1.0
+" GetLatestVimScripts: 4472 1 :AutoInstall: obsession.vim
 
 if exists("g:loaded_obsession") || v:version < 700 || &cp
   finish
@@ -53,6 +54,18 @@ function! s:dispatch(bang, file) abort
   endtry
 endfunction
 
+function! s:doautocmd_user(arg) abort
+  if !exists('#User#' . a:arg)
+    return ''
+  elseif v:version >= 704
+    return 'doautocmd <nomodeline> User ' . fnameescape(a:arg)
+  else
+    return 'try | let [save_mls, &mls] = [&mls, 0] | ' .
+          \ 'doautocmd <nomodeline> User ' . fnameescape(a:arg) . ' | ' .
+          \ 'finally | let &mls = save_mls | endtry'
+  endif
+endfunction
+
 function! s:persist() abort
   if exists('g:SessionLoad')
     return ''
@@ -65,9 +78,16 @@ function! s:persist() abort
       let body = readfile(g:this_obsession)
       call insert(body, 'let g:this_session = v:this_session', -3)
       call insert(body, 'let g:this_obsession = v:this_session', -3)
-      call insert(body, 'let g:this_obsession_status = 2', -3)
+      if type(get(g:, 'obsession_append')) == type([])
+        for line in g:obsession_append
+          call insert(body, line, -3)
+        endfor
+      endif
       call writefile(body, g:this_obsession)
       let g:this_session = g:this_obsession
+      exe s:doautocmd_user('Obsession')
+    catch /^Vim(mksession):E11:/
+      return ''
     catch
       unlet g:this_obsession
       let &l:readonly = &l:readonly
@@ -100,7 +120,11 @@ endfunction
 
 augroup obsession
   autocmd!
-  autocmd BufEnter,VimLeavePre * exe s:persist()
+  autocmd VimLeavePre * exe s:persist()
+  autocmd BufEnter *
+        \ if !get(g:, 'obsession_no_bufenter') |
+        \   exe s:persist() |
+        \ endif
   autocmd User Flags call Hoist('global', 'ObsessionStatus')
 augroup END
 
